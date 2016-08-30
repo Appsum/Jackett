@@ -1,14 +1,11 @@
-﻿using CsQuery;
-using Jackett.Models;
+﻿using Jackett.Models;
 using Jackett.Services;
-using Jackett.Utils;
 using Jackett.Utils.Clients;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Jackett.Models.IndexerConfig;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Jackett.Models;
 using Newtonsoft.Json.Linq;
@@ -10,7 +9,6 @@ using Jackett.Services;
 using Jackett.Utils;
 using Jackett.Utils.Clients;
 using AutoMapper;
-using System.Threading;
 using Jackett.Models.IndexerConfig;
 
 namespace Jackett.Indexers

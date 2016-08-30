@@ -189,6 +189,7 @@
     <Compile Include="Indexers\Hebits.cs" />
     <Compile Include="Indexers\MyAnonamouse.cs" />
     <Compile Include="Indexers\PassThePopcorn.cs" />
+    <Compile Include="Indexers\ThePirateBay.cs" />
     <Compile Include="Indexers\Xthor.cs" />
     <Compile Include="Indexers\AlphaRatio.cs" />
     <Compile Include="Indexers\BitSoup.cs" />

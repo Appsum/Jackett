@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
-using CsQuery.ExtensionMethods;
 using Jackett.Models.IndexerConfig;
 
 namespace Jackett.Indexers

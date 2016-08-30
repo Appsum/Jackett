@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Jackett.Models;
 using Jackett.Services;
 using NLog;
 using System;

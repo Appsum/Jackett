@@ -3,19 +3,13 @@ using Jackett.Models;
 using Jackett.Services;
 using Jackett.Utils;
 using Jackett.Utils.Clients;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using Jackett.Models.IndexerConfig;
 using Jackett.Models.IndexerConfig.Bespoke;
 
 namespace Jackett.Indexers

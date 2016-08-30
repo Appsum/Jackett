@@ -1,16 +1,5 @@
 ﻿using Jackett.Utils.Clients;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
-using Jackett.Indexers;
-using FluentAssertions;
-using Newtonsoft.Json.Linq;
-using Jackett;
-using Newtonsoft.Json;
 using Jackett.Utils;
 
 namespace JackettTest.Indexers

@@ -32,7 +32,6 @@ table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting {
   cursor: pointer;
-  *cursor: hand;
 }
 table.dataTable thead th div.DataTables_sort_wrapper {
   position: relative;

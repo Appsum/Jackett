@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Jackett.Models;
 using Newtonsoft.Json.Linq;
@@ -10,7 +9,6 @@ using Jackett.Services;
 using NLog;
 using Jackett.Utils;
 using CsQuery;
-using System.Web;
 using Jackett.Models.IndexerConfig;
 using System.Collections.Specialized;
 
