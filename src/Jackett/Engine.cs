@@ -117,6 +117,7 @@ namespace Jackett
             var logLevel = Startup.TracingEnabled ? LogLevel.Debug : LogLevel.Info;
             // Add custom date time format renderer as the default is too long
             ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("simpledatetime", typeof(SimpleDateTimeRenderer));
+            
 
             var logConfig = new LoggingConfiguration();
             var logFile = new FileTarget();

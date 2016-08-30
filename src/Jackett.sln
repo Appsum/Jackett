@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jackett", "Jackett\Jackett.csproj", "{E636D5F8-68B4-4903-B4ED-CCFD9C9E899F}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jackett.Test", "Jackett.Test\Jackett.Test.csproj", "{E75D4F15-5DA3-4332-ADB1-28FB673DAE56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jackett.Updater", "Jackett.Updater\Jackett.Updater.csproj", "{A61E311A-6F8B-4497-B5E4-2EA8994C7BD8}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JackettCore", "JackettCore\JackettCore.xproj", "{C5881CDA-D9EC-4E26-9AB9-4AAF11908A48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{A61E311A-6F8B-4497-B5E4-2EA8994C7BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A61E311A-6F8B-4497-B5E4-2EA8994C7BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A61E311A-6F8B-4497-B5E4-2EA8994C7BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5881CDA-D9EC-4E26-9AB9-4AAF11908A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5881CDA-D9EC-4E26-9AB9-4AAF11908A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5881CDA-D9EC-4E26-9AB9-4AAF11908A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5881CDA-D9EC-4E26-9AB9-4AAF11908A48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

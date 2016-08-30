@@ -14,7 +14,7 @@ namespace JackettConsole
             try
             {
                 var options = new ConsoleOptions();
-                if (!Parser.Default.ParseArguments(args, options) || options.ShowHelp == true)
+                if (!Parser.Default.ParseArguments(args, options) || options.ShowHelp)
                 {
                     if (options.LastParserState != null && options.LastParserState.Errors.Count > 0)
                     {
