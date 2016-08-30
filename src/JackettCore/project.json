@@ -13,7 +13,12 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0"
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Autofac": "4.1.0",
+    "AutoMapper": "5.1.1",
+    "Serilog": "2.2.1",
+    "Serilog.Sinks.RollingFile": "3.0.0",
+    "Serilog.Sinks.Console": "2.1.0"
   },
 
   "tools": {
