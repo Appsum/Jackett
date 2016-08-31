@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jackett.Utils
+﻿namespace JackettCore.Utils
 {
     public static class BrowserUtil
     {

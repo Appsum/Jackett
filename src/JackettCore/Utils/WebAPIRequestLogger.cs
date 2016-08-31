@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     class WebAPIRequestLogger : DelegatingHandler
     {

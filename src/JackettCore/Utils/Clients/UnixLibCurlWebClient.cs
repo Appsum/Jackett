@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using CurlSharp;
-using NLog;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
-namespace Jackett.Utils.Clients
+namespace JackettCore.Utils.Clients
 {
     public class UnixLibCurlWebClient : IWebClient
     {

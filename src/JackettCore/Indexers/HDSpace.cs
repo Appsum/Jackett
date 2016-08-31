@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jackett.Models;
-using Newtonsoft.Json.Linq;
-using Jackett.Utils.Clients;
-using Jackett.Services;
-using NLog;
-using Jackett.Utils;
-using CsQuery;
-using System.Web;
-using System.Text.RegularExpressions;
 using System.Globalization;
-using Jackett.Models.IndexerConfig;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class HDSpace : BaseIndexer, IIndexer
     {

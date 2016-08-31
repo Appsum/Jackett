@@ -1,7 +1,6 @@
-﻿using Jackett.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Jackett
+namespace Jackett.Models
 {
     public class ManualSearchResult
     {

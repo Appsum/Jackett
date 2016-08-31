@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Jackett.Models.IndexerConfig.Bespoke
+namespace JackettCore.Models.IndexerConfig.Bespoke
 {
     public class ConfigurationDataRuTor : ConfigurationData
     {

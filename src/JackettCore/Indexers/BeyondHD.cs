@@ -1,19 +1,17 @@
-﻿using CsQuery;
-using Jackett.Models;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jackett.Models.IndexerConfig;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class BeyondHD : BaseIndexer, IIndexer
     {

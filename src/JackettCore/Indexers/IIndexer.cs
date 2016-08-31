@@ -1,11 +1,11 @@
-﻿using Jackett.Models;
-using Jackett.Models.IndexerConfig;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public interface IIndexer
     {

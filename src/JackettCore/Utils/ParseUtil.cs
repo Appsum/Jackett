@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public static class ParseUtil
     {

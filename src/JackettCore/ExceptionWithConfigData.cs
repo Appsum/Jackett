@@ -1,7 +1,7 @@
 ﻿using System;
-using Jackett.Models.IndexerConfig;
+using JackettCore.Models.IndexerConfig;
 
-namespace Jackett
+namespace JackettCore
 {
 
     public class ExceptionWithConfigData : Exception

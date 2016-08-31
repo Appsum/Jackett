@@ -1,8 +1,8 @@
-﻿using NLog;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IProcessService
     {
@@ -12,11 +12,11 @@ namespace Jackett.Services
 
     public class ProcessService : IProcessService
     {
-        private Logger logger;
+        private readonly ILogger _logger;
 
-        public ProcessService(Logger l)
+        public ProcessService(ILogger logger)
         {
-            logger = l;
+            _logger = logger;
         }
 
         private void Run(string exe, string args, bool asAdmin, DataReceivedEventHandler d, DataReceivedEventHandler r)
@@ -40,7 +40,7 @@ namespace Jackett.Services
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardInput = false;
             }
-            logger.Debug("Running " + startInfo.FileName + " " + startInfo.Arguments);
+            _logger.LogDebug("Running " + startInfo.FileName + " " + startInfo.Arguments);
             var proc = Process.Start(startInfo);
 
             if (!asAdmin)
@@ -85,14 +85,14 @@ namespace Jackett.Services
             {
                 if (!string.IsNullOrWhiteSpace(e.Data))
                 {
-                    logger.Debug(e.Data);
+                    _logger.LogDebug(e.Data);
                 }
             };
             DataReceivedEventHandler rxError = (s, e) =>
             {
                 if (!string.IsNullOrWhiteSpace(e.Data))
                 {
-                    logger.Error(e.Data);
+                    _logger.LogError(e.Data);
                 }
             };
 

@@ -1,17 +1,15 @@
-﻿using CsQuery;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Jackett.Models;
-using Jackett.Utils;
-using NLog;
-using Jackett.Services;
-using Jackett.Utils.Clients;
-using Jackett.Models.IndexerConfig;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class AlphaRatio : BaseIndexer, IIndexer
     {

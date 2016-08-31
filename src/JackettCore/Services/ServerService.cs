@@ -4,15 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web;
-using Jackett.Models.Config;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
-using Microsoft.Owin.Hosting;
+using JackettCore.Models.Config;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
 using Newtonsoft.Json.Linq;
-using NLog;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IServerService
     {

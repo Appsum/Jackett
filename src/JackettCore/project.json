@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.0",
@@ -18,7 +18,12 @@
     "AutoMapper": "5.1.1",
     "Serilog": "2.2.1",
     "Serilog.Sinks.RollingFile": "3.0.0",
-    "Serilog.Sinks.Console": "2.1.0"
+    "Serilog.Sinks.Console": "2.1.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.AspNetCore.Identity": "1.0.0",
+    "Serilog.Sinks.Literate": "2.0.0",
+    "Autofac.Extensions.DependencyInjection": "4.0.0",
+    "Serilog.Extensions.Logging": "1.2.0"
   },
 
   "tools": {

@@ -1,8 +1,8 @@
-﻿using Jackett.Utils.Clients;
-using System;
+﻿using System;
 using System.Security.Principal;
+using JackettCore.Utils.Clients;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class ServerUtil
     {

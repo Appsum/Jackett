@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jackett.Models
+namespace JackettCore.Models
 {
    public class TorrentPotatoResponse
     {

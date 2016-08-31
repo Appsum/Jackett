@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Jackett.Models.IndexerConfig
+namespace JackettCore.Models.IndexerConfig
 {
     public interface ISerializableConfig
     {

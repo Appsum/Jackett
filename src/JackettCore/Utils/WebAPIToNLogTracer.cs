@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Net.Http;
-using System.Web.Http.Tracing;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class WebAPIToNLogTracer : ITraceWriter
     {

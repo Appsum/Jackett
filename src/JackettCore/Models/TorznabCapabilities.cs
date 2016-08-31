@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Models
+namespace JackettCore.Models
 {
     public class TorznabCapabilities
     {

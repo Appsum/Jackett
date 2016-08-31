@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface ITrayLockService
     {

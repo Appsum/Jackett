@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Jackett.Models;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
 using Newtonsoft.Json.Linq;
-using NLog;
-using Jackett.Utils;
-using CsQuery;
-using System.Web;
-using Jackett.Services;
-using Jackett.Utils.Clients;
-using Jackett.Models.IndexerConfig;
-using System.Globalization;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class PrivateHD : BaseIndexer, IIndexer
     {

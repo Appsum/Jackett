@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jackett
+namespace JackettCore
 {
     public class JackettProtectedAttribute : Attribute
     {

@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class JsonContent : HttpContent
     {

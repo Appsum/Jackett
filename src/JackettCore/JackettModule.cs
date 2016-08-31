@@ -1,14 +1,11 @@
-﻿using Autofac;
-using System;
-using System.Linq;
-using System.Text;
-using Autofac.Integration.WebApi;
-using Jackett.Indexers;
-using Jackett.Utils.Clients;
+﻿using System.Text;
+using Autofac;
 using AutoMapper;
-using Jackett.Models;
+using JackettCore.Indexers;
+using JackettCore.Models;
+using JackettCore.Utils.Clients;
 
-namespace Jackett
+namespace JackettCore
 {
     public class JackettModule : Module
     {

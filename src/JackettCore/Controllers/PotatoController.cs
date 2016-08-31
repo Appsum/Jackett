@@ -1,27 +1,28 @@
-﻿using AutoMapper;
-using Jackett.Models;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
+using AutoMapper;
+using JackettCore.Models;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Controllers
+namespace JackettCore.Controllers
 {
     [AllowAnonymous]
-    [JackettAPINoCache]
+    [ResponseCache(CacheProfileName = "Never")]
     public class PotatoController : ApiController
     {
         private IIndexerManagerService indexerService;
-        private Logger logger;
+        private ILogger logger;
         private IServerService serverService;
         private ICacheService cacheService;
         private IWebClient webClient;
@@ -40,7 +41,7 @@ namespace Jackett.Controllers
             }
         }
 
-        public PotatoController(IIndexerManagerService i, Logger l, IServerService s, ICacheService c, IWebClient w)
+        public PotatoController(IIndexerManagerService i, ILogger l, IServerService s, ICacheService c, IWebClient w)
         {
             indexerService = i;
             logger = l;

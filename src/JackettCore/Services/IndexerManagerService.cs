@@ -1,16 +1,16 @@
-﻿using Autofac;
-using Jackett.Indexers;
-using Jackett.Models;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using JackettCore.Indexers;
+using JackettCore.Models;
+using JackettCore.Utils.Clients;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IIndexerManagerService
     {
@@ -24,25 +24,25 @@ namespace Jackett.Services
 
     public class IndexerManagerService : IIndexerManagerService
     {
-        private IContainer container;
-        private IConfigurationService configService;
-        private Logger logger;
+        private readonly IContainer _container;
+        private readonly IConfigurationService _configurationService;
+        private readonly ILogger _logger;
+        private readonly ICacheService _cacheService;
         private Dictionary<string, IIndexer> indexers = new Dictionary<string, IIndexer>();
-        private ICacheService cacheService;
 
-        public IndexerManagerService(IContainer c, IConfigurationService config, Logger l, ICacheService cache)
+        public IndexerManagerService(IContainer container, IConfigurationService configurationService, ILogger logger, ICacheService cacheService)
         {
-            container = c;
-            configService = config;
-            logger = l;
-            cacheService = cache;
+            _container = container;
+            _configurationService = configurationService;
+            _logger = logger;
+            _cacheService = cacheService;
         }
 
         public void InitIndexers()
         {
-            logger.Info("Using HTTP Client: " + container.Resolve<IWebClient>().GetType().Name);
+            _logger.LogInformation("Using HTTP Client: " + _container.Resolve<IWebClient>().GetType().Name);
 
-            foreach (var idx in container.Resolve<IEnumerable<IIndexer>>().OrderBy(_ => _.DisplayName))
+            foreach (var idx in _container.Resolve<IEnumerable<IIndexer>>().OrderBy(_ => _.DisplayName))
             {
                 indexers.Add(idx.ID, idx);
                 var configFilePath = GetIndexerConfigFilePath(idx);
@@ -56,7 +56,7 @@ namespace Jackett.Services
                     }
                     catch (Exception ex)
                     {
-                        logger.Error(ex, "Failed loading configuration for {0}, you must reconfigure this indexer", idx.DisplayName);
+                        _logger.LogError(ex, "Failed loading configuration for {0}, you must reconfigure this indexer", idx.DisplayName);
                     }
                 }
             }
@@ -70,7 +70,7 @@ namespace Jackett.Services
             }
             else
             {
-                logger.Error("Request for unknown indexer: " + name);
+                _logger.LogError("Request for unknown indexer: " + name);
                 throw new Exception("Unknown indexer: " + name);
             }
         }
@@ -86,10 +86,10 @@ namespace Jackett.Services
             var browseQuery = new TorznabQuery();
             var results = await indexer.PerformQuery(browseQuery);
             results = indexer.CleanLinks(results);
-            logger.Info(string.Format("Found {0} releases from {1}", results.Count(), indexer.DisplayName));
+            _logger.LogInformation(string.Format("Found {0} releases from {1}", results.Count(), indexer.DisplayName));
             if (results.Count() == 0)
                 throw new Exception("Found no results while trying to browse this tracker");
-            cacheService.CacheRssResults(indexer, results);
+            _cacheService.CacheRssResults(indexer, results);
         }
 
         public void DeleteIndexer(string name)
@@ -97,19 +97,19 @@ namespace Jackett.Services
             var indexer = GetIndexer(name);
             var configPath = GetIndexerConfigFilePath(indexer);
             File.Delete(configPath);
-            indexers[name] = container.ResolveNamed<IIndexer>(indexer.ID);
+            indexers[name] = _container.ResolveNamed<IIndexer>(indexer.ID);
         }
 
         private string GetIndexerConfigFilePath(IIndexer indexer)
         {
-            return Path.Combine(configService.GetIndexerConfigDir(), indexer.ID + ".json");
+            return Path.Combine(_configurationService.GetIndexerConfigDir(), indexer.ID + ".json");
         }
 
         public void SaveConfig(IIndexer indexer, JToken obj)
         {
             var configFilePath = GetIndexerConfigFilePath(indexer);
-            if (!Directory.Exists(configService.GetIndexerConfigDir()))
-                Directory.CreateDirectory(configService.GetIndexerConfigDir());
+            if (!Directory.Exists(_configurationService.GetIndexerConfigDir()))
+                Directory.CreateDirectory(_configurationService.GetIndexerConfigDir());
             File.WriteAllText(configFilePath, obj.ToString());
         }
     }

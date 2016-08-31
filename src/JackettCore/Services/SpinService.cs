@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IRunTimeService
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
-namespace Jackett.Models
+namespace JackettCore.Models
 {
     public class ResultPage
     {

@@ -1,11 +1,4 @@
-﻿using AutoMapper;
-using Jackett.Indexers;
-using Jackett.Models;
-using Jackett.Services;
-using Jackett.Utils;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,39 +7,45 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
-using System.Windows.Forms;
+using AutoMapper;
+using JackettCore.Indexers;
+using JackettCore.Models;
+using JackettCore.Services;
+using JackettCore.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Controllers
+namespace JackettCore.Controllers
 {
-    [RoutePrefix("admin")]
-    [JackettAuthorized]
-    [JackettAPINoCache]
-    public class AdminController : ApiController
+    [Route("[controller]")]
+    //[JackettAuthorized]
+    [ResponseCache(CacheProfileName = "Never")]
+    public class AdminController : Controller
     {
-        private IConfigurationService config;
-        private IIndexerManagerService indexerService;
-        private IServerService serverService;
-        private ISecuityService securityService;
-        private IProcessService processService;
-        private ICacheService cacheService;
-        private Logger logger;
-        private ILogCacheService logCache;
-        private IUpdateService updater;
+        private readonly IConfigurationService _config;
+        private readonly IIndexerManagerService _indexerService;
+        private readonly IServerService _serverService;
+        private readonly ISecuityService _securityService;
+        private readonly IProcessService _processService;
+        private readonly ICacheService _cacheService;
+        private readonly ILogger _logger;
+        private readonly ILogCacheService _logCache;
+        private readonly IUpdateService _updater;
 
-        public AdminController(IConfigurationService config, IIndexerManagerService i, IServerService ss, ISecuityService s, IProcessService p, ICacheService c, Logger l, ILogCacheService lc, IUpdateService u)
+        public AdminController(IConfigurationService config, IIndexerManagerService indexerManagerService, IServerService serverService, ISecuityService s, IProcessService p, ICacheService c, ILogger l, ILogCacheService lc, IUpdateService u)
         {
-            this.config = config;
-            indexerService = i;
-            serverService = ss;
-            securityService = s;
-            processService = p;
-            cacheService = c;
-            logger = l;
-            logCache = lc;
-            updater = u;
+            _config = config;
+            _indexerService = i;
+            _serverService = ss;
+            _securityService = s;
+            _processService = p;
+            _cacheService = c;
+            _logger = l;
+            _logCache = lc;
+            _updater = u;
         }
 
         private async Task<JToken> ReadPostDataJson()
@@ -55,27 +54,14 @@ namespace Jackett.Controllers
             return JObject.Parse(content);
         }
 
-
-        private HttpResponseMessage GetFile(string path)
-        {
-            var result = new HttpResponseMessage(HttpStatusCode.OK);
-            var mappedPath = Path.Combine(config.GetContentFolder(), path);
-            var stream = new FileStream(mappedPath, FileMode.Open);
-            result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(mappedPath));
-
-            return result;
-        }
-
         [HttpGet]
         [AllowAnonymous]
-        public RedirectResult Logout()
+        public IActionResult Logout()
         {
             var ctx = Request.GetOwinContext();
             var authManager = ctx.Authentication;
             authManager.SignOut("ApplicationCookie");
-            return Redirect("Admin/Dashboard");
+            return RedirectToAction("Dashboard","Admin");
         }
 
         [HttpGet]
@@ -86,12 +72,12 @@ namespace Jackett.Controllers
             if (Request.RequestUri.Query != null && Request.RequestUri.Query.Contains("logout"))
             {
                 var file = GetFile("login.html");
-                securityService.Logout(file);
+                _securityService.Logout(file);
                 return file;
             }
 
 
-            if (securityService.CheckAuthorised(Request))
+            if (_securityService.CheckAuthorised(Request))
             {
                 return GetFile("index.html");
 
@@ -100,10 +86,10 @@ namespace Jackett.Controllers
             {
                 var formData = await Request.Content.ReadAsFormDataAsync();
 
-                if (formData != null && securityService.HashPassword(formData["password"]) == serverService.Config.AdminPassword)
+                if (formData != null && _securityService.HashPassword(formData["password"]) == _serverService.Config.AdminPassword)
                 {
                     var file = GetFile("index.html");
-                    securityService.Login(file);
+                    _securityService.Login(file);
                     return file;
                 }
                 else
@@ -124,19 +110,19 @@ namespace Jackett.Controllers
                 var password = (string)postData["password"];
                 if (string.IsNullOrEmpty(password))
                 {
-                    serverService.Config.AdminPassword = string.Empty;
+                    _serverService.Config.AdminPassword = string.Empty;
                 }
                 else
                 {
-                    serverService.Config.AdminPassword = securityService.HashPassword(password);
+                    _serverService.Config.AdminPassword = _securityService.HashPassword(password);
                 }
 
-                serverService.SaveConfig();
+                _serverService.SaveConfig();
                 jsonReply["result"] = "success";
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in SetAdminPassword");
+                _logger.Error(ex, "Exception in SetAdminPassword");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -151,7 +137,7 @@ namespace Jackett.Controllers
             try
             {
                 var postData = await ReadPostDataJson();
-                var indexer = indexerService.GetIndexer((string)postData["indexer"]);
+                var indexer = _indexerService.GetIndexer((string)postData["indexer"]);
                 var config = await indexer.GetConfigurationForSetup();
                 jsonReply["config"] = config.ToJson(null);
                 jsonReply["caps"] = indexer.TorznabCaps.CapsToJson();
@@ -160,7 +146,7 @@ namespace Jackett.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in GetConfigForm");
+                _logger.Error(ex, "Exception in GetConfigForm");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -177,12 +163,12 @@ namespace Jackett.Controllers
             {
                 var postData = await ReadPostDataJson();
                 string indexerString = (string)postData["indexer"];
-                indexer = indexerService.GetIndexer((string)postData["indexer"]);
+                indexer = _indexerService.GetIndexer((string)postData["indexer"]);
                 jsonReply["name"] = indexer.DisplayName;
                 var configurationResult = await indexer.ApplyConfiguration(postData["config"]);
                 if (configurationResult == IndexerConfigurationStatus.RequiresTesting)
                 {
-                    await indexerService.TestIndexer((string)postData["indexer"]);
+                    await _indexerService.TestIndexer((string)postData["indexer"]);
                 }
                 else if (configurationResult == IndexerConfigurationStatus.Failed)
                 {
@@ -203,7 +189,7 @@ namespace Jackett.Controllers
                 }
                 else
                 {
-                    logger.Error(ex, "Exception in Configure");
+                    _logger.Error(ex, "Exception in Configure");
                 }
             }
             return Json(jsonReply);
@@ -219,7 +205,7 @@ namespace Jackett.Controllers
                 jsonReply["result"] = "success";
                 JArray items = new JArray();
 
-                foreach (var indexer in indexerService.GetAllIndexers())
+                foreach (var indexer in _indexerService.GetAllIndexers())
                 {
                     var item = new JObject();
                     item["id"] = indexer.ID;
@@ -239,7 +225,7 @@ namespace Jackett.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in get_indexers");
+                _logger.Error(ex, "Exception in get_indexers");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -255,13 +241,13 @@ namespace Jackett.Controllers
             {
                 var postData = await ReadPostDataJson();
                 string indexerString = (string)postData["indexer"];
-                await indexerService.TestIndexer(indexerString);
-                jsonReply["name"] = indexerService.GetIndexer(indexerString).DisplayName;
+                await _indexerService.TestIndexer(indexerString);
+                jsonReply["name"] = _indexerService.GetIndexer(indexerString).DisplayName;
                 jsonReply["result"] = "success";
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in test_indexer");
+                _logger.Error(ex, "Exception in test_indexer");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -277,11 +263,11 @@ namespace Jackett.Controllers
             {
                 var postData = await ReadPostDataJson();
                 string indexerString = (string)postData["indexer"];
-                indexerService.DeleteIndexer(indexerString);
+                _indexerService.DeleteIndexer(indexerString);
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in delete_indexer");
+                _logger.Error(ex, "Exception in delete_indexer");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -293,7 +279,7 @@ namespace Jackett.Controllers
         public IHttpActionResult TriggerUpdates()
         {
             var jsonReply = new JObject();
-            updater.CheckForUpdatesNow();
+            _updater.CheckForUpdatesNow();
             return Json(jsonReply);
         }
 
@@ -305,24 +291,24 @@ namespace Jackett.Controllers
             try
             {
                 var cfg = new JObject();
-                cfg["port"] = serverService.Config.Port;
-                cfg["external"] = serverService.Config.AllowExternal;
-                cfg["api_key"] = serverService.Config.APIKey;
-                cfg["blackholedir"] = serverService.Config.BlackholeDir;
-                cfg["updatedisabled"] = serverService.Config.UpdateDisabled;
-                cfg["prerelease"] = serverService.Config.UpdatePrerelease;
-                cfg["password"] = string.IsNullOrEmpty(serverService.Config.AdminPassword) ? string.Empty : serverService.Config.AdminPassword.Substring(0, 10);
+                cfg["port"] = _serverService.Config.Port;
+                cfg["external"] = _serverService.Config.AllowExternal;
+                cfg["api_key"] = _serverService.Config.APIKey;
+                cfg["blackholedir"] = _serverService.Config.BlackholeDir;
+                cfg["updatedisabled"] = _serverService.Config.UpdateDisabled;
+                cfg["prerelease"] = _serverService.Config.UpdatePrerelease;
+                cfg["password"] = string.IsNullOrEmpty(_serverService.Config.AdminPassword) ? string.Empty : _serverService.Config.AdminPassword.Substring(0, 10);
                 cfg["logging"] = Startup.TracingEnabled;
-                cfg["basepathoverride"] = serverService.Config.BasePathOverride;
-               
+                cfg["basepathoverride"] = _serverService.Config.BasePathOverride;
+
 
                 jsonReply["config"] = cfg;
-                jsonReply["app_version"] = config.GetVersion();
+                jsonReply["app_version"] = _config.GetVersion();
                 jsonReply["result"] = "success";
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in get_jackett_config");
+                _logger.Error(ex, "Exception in get_jackett_config");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -378,7 +364,7 @@ namespace Jackett.Controllers
                         {
                             try
                             {
-                                processService.StartProcessAndLog(Application.ExecutablePath, "--ReserveUrls", true);
+                                _processService.StartProcessAndLog(Application.ExecutablePath, "--ReserveUrls", true);
                             }
                             catch
                             {
@@ -392,20 +378,20 @@ namespace Jackett.Controllers
                         }
                         else
                         {
-                            serverService.ReserveUrls(true);
+                            _serverService.ReserveUrls(true);
                         }
                     }
 
                 (new Thread(() =>
                 {
                     Thread.Sleep(500);
-                    serverService.Stop();
+                    _serverService.Stop();
                     Engine.BuildContainer();
                     Engine.Server.Initalize();
                     Engine.Server.Start();
                 })).Start();
                 }
-                
+
                 if (saveDir != Engine.Server.Config.BlackholeDir)
                 {
                     if (!string.IsNullOrEmpty(saveDir))
@@ -426,7 +412,7 @@ namespace Jackett.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in set_port");
+                _logger.Error(ex, "Exception in set_port");
                 jsonReply["result"] = "error";
                 jsonReply["error"] = ex.Message;
             }
@@ -437,7 +423,7 @@ namespace Jackett.Controllers
         [HttpGet]
         public List<TrackerCacheResult> GetCache()
         {
-            var results = cacheService.GetCachedResults();
+            var results = _cacheService.GetCachedResults();
             ConfigureCacheResults(results);
             return results;
         }
@@ -445,13 +431,13 @@ namespace Jackett.Controllers
 
         private void ConfigureCacheResults(List<TrackerCacheResult> results)
         {
-            var serverUrl = string.Format("{0}://{1}:{2}{3}", Request.RequestUri.Scheme, Request.RequestUri.Host, Request.RequestUri.Port, serverService.BasePath());
+            var serverUrl = string.Format("{0}://{1}:{2}{3}", Request.RequestUri.Scheme, Request.RequestUri.Host, Request.RequestUri.Port, _serverService.BasePath());
             foreach (var result in results)
             {
                 var link = result.Link;
-                result.Link = serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "dl", result.Title + ".torrent");
+                result.Link = _serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "dl", result.Title + ".torrent");
                 if (result.Link != null && result.Link.Scheme != "magnet" && !string.IsNullOrWhiteSpace(Engine.Server.Config.BlackholeDir))
-                    result.BlackholeLink = serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "bh", string.Empty);
+                    result.BlackholeLink = _serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "bh", string.Empty);
 
             }
         }
@@ -460,7 +446,7 @@ namespace Jackett.Controllers
         [HttpGet]
         public List<CachedLog> GetLogs()
         {
-            return logCache.Logs;
+            return _logCache.Logs;
         }
 
         [Route("Search")]
@@ -476,7 +462,7 @@ namespace Jackett.Controllers
 
             query.ExpandCatsToSubCats();
 
-            var trackers = indexerService.GetAllIndexers().Where(t => t.IsConfigured).ToList();
+            var trackers = _indexerService.GetAllIndexers().Where(t => t.IsConfigured).ToList();
             if (!string.IsNullOrWhiteSpace(value.Tracker))
             {
                 trackers = trackers.Where(t => t.ID == value.Tracker).ToList();
@@ -493,7 +479,7 @@ namespace Jackett.Controllers
                 {
                     var searchResults = indexer.PerformQuery(query).Result;
                     searchResults = indexer.CleanLinks(searchResults);
-                    cacheService.CacheRssResults(indexer, searchResults);
+                    _cacheService.CacheRssResults(indexer, searchResults);
                     searchResults = indexer.FilterResults(query, searchResults);
 
                     lock (results)
@@ -510,7 +496,7 @@ namespace Jackett.Controllers
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, "An error occured during manual search on " + indexer.DisplayName + ":  " + e.Message);
+                    _logger.Error(e, "An error occured during manual search on " + indexer.DisplayName + ":  " + e.Message);
                 }
             });
 
@@ -531,7 +517,7 @@ namespace Jackett.Controllers
             if (manualResult.Indexers.Count == 0)
                 manualResult.Indexers = new List<string>() { "None" };
 
-            logger.Info(string.Format("Manual search for \"{0}\" on {1} with {2} results.", query.GetQueryString(), string.Join(", ", manualResult.Indexers), manualResult.Results.Count));
+            _logger.Info(string.Format("Manual search for \"{0}\" on {1} with {2} results.", query.GetQueryString(), string.Join(", ", manualResult.Indexers), manualResult.Results.Count));
             return manualResult;
         }
     }

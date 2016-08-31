@@ -18,6 +18,7 @@
  **************************************************************************/
 
 using System;
+using CurlSharp.Enums;
 
 namespace CurlSharp
 {

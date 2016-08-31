@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jackett.Models.IndexerConfig
+namespace JackettCore.Models.IndexerConfig
 {
     public class ConfigurationDataUrl : ConfigurationData
     {

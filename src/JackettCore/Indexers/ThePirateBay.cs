@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using CsQuery;
-using Jackett.Models;
-using Jackett.Models.IndexerConfig;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
 using Newtonsoft.Json.Linq;
-using NLog;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class ThePirateBay : BaseIndexer, IIndexer
     {

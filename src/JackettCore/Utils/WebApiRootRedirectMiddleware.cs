@@ -1,7 +1,6 @@
-﻿using Microsoft.Owin;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class WebApiRootRedirectMiddleware : OwinMiddleware
     {

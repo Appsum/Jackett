@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using CsQuery;
-using Jackett.Models;
-using Jackett.Models.IndexerConfig;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
 using Newtonsoft.Json.Linq;
-using NLog;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     // ReSharper disable once InconsistentNaming
     public class ILoveTorrents : BaseIndexer, IIndexer

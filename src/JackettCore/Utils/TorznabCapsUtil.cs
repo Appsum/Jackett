@@ -1,9 +1,9 @@
-﻿using Jackett.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JackettCore.Models;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class TorznabUtil
     {

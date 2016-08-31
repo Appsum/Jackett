@@ -1,16 +1,14 @@
-﻿using Jackett.Models;
-using Jackett.Services;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
-using System.Web;
-using Jackett.Models.IndexerConfig;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class PassThePopcorn : BaseIndexer, IIndexer
     {

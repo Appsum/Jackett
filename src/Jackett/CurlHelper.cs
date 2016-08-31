@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Jackett.Utils;
 using System.Net;
+using CurlSharp.Enums;
 
 namespace Jackett
 {

@@ -1,4 +1,4 @@
-﻿namespace Jackett.Models.IndexerConfig
+﻿namespace JackettCore.Models.IndexerConfig
 {
     class ConfigurationDataCaptchaLogin : ConfigurationData
     {

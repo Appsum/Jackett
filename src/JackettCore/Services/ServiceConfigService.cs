@@ -1,13 +1,9 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Specialized;
-using System.Configuration.Install;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.ServiceProcess;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IServiceConfigService
     {

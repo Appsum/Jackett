@@ -1,8 +1,8 @@
-﻿using NLog;
-using Jackett.Services;
-using Jackett.Utils.Clients;
+﻿using JackettCore.Indexers.Abstract;
+using JackettCore.Services;
+using JackettCore.Utils.Clients;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class Avistaz : AvistazTracker, IIndexer
     {

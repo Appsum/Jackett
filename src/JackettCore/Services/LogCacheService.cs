@@ -1,10 +1,8 @@
-﻿using Jackett.Models;
-using NLog;
-using NLog.Targets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using JackettCore.Models;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface ILogCacheService
     {

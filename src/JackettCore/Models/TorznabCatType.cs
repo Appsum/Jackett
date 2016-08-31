@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Jackett.Models
+namespace JackettCore.Models
 {
     public static partial class TorznabCatType
     {

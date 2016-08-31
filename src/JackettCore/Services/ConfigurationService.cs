@@ -1,13 +1,11 @@
-﻿using Jackett.Utils;
-using NLog;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Windows.Forms;
+using JackettCore.Utils;
+using Microsoft.Extensions.Logging;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IConfigurationService
     {
@@ -25,15 +23,16 @@ namespace Jackett.Services
 
     public class ConfigurationService : IConfigurationService
     {
-        private ISerializeService serializeService;
-        private Logger logger;
-        private IProcessService processService;
+        private readonly ISerializeService _serializeService;
+        private readonly IProcessService _processService;
+        private readonly ILogger _logger;
 
-        public ConfigurationService(ISerializeService s, IProcessService p, Logger l)
+
+        public ConfigurationService(ISerializeService serializeService, IProcessService processService, ILogger logger)
         {
-            serializeService = s;
-            logger = l;
-            processService = p;
+            _serializeService = serializeService;
+            _processService = processService;
+            _logger = logger;
             CreateOrMigrateSettings();
         }
 
@@ -52,7 +51,7 @@ namespace Jackett.Services
                     }
                 }
 
-                logger.Debug("App config/log directory: " + GetAppDataFolder());
+                _logger.Debug("App config/log directory: " + GetAppDataFolder());
             }
             catch (Exception ex)
             {
@@ -94,7 +93,7 @@ namespace Jackett.Services
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("ERROR could not migrate settings directory " + ex);
+                    _logger.Error("ERROR could not migrate settings directory " + ex);
                 }
             }
         }
@@ -140,15 +139,15 @@ namespace Jackett.Services
             {
                 if (!File.Exists(fullPath))
                 {
-                    logger.Debug("Config file does not exist: " + fullPath);
+                    _logger.Debug("Config file does not exist: " + fullPath);
                     return default(T);
                 }
 
-                return serializeService.DeSerialise<T>(File.ReadAllText(fullPath));
+                return _serializeService.DeSerialise<T>(File.ReadAllText(fullPath));
             }
             catch (Exception e)
             {
-                logger.Error(e, "Error reading config file " + fullPath);
+                _logger.Error(e, "Error reading config file " + fullPath);
                 return default(T);
             }
         }
@@ -159,14 +158,14 @@ namespace Jackett.Services
             var fullPath = Path.Combine(GetAppDataFolder(), type.Name + ".json");
             try
             {
-                var json = serializeService.Serialise(config);
+                var json = _serializeService.Serialise(config);
                 if (!Directory.Exists(GetAppDataFolder()))
                     Directory.CreateDirectory(GetAppDataFolder());
                 File.WriteAllText(fullPath, json);
             }
             catch (Exception e)
             {
-                logger.Error(e, "Error reading config file " + fullPath);
+                _logger.Error(e, "Error reading config file " + fullPath);
             }
         }
 

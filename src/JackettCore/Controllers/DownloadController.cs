@@ -1,20 +1,18 @@
-﻿using Jackett.Services;
-using NLog;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using MonoTorrent.BEncoding;
+using JackettCore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Jackett.Controllers
+namespace JackettCore.Controllers
 {
     [AllowAnonymous]
-    [JackettAPINoCache]
-    public class DownloadController : ApiController
+    [ResponseCache(CacheProfileName = "Never")]
+    public class DownloadController : Controller
     {
         Logger logger;
         IIndexerManagerService indexerService;

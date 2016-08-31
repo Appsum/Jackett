@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Jackett.Models.IndexerConfig.Bespoke
+namespace JackettCore.Models.IndexerConfig.Bespoke
 {
     public class ConfigurationDataBlueTigers : ConfigurationData
     {

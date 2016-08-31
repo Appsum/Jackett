@@ -1,10 +1,10 @@
-﻿using Jackett.Services;
-using Jackett.Utils;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Linq;
+using JackettCore.Services;
+using JackettCore.Utils;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Models.IndexerConfig
+namespace JackettCore.Models.IndexerConfig
 {
     public abstract class ConfigurationData
     {

@@ -1,8 +1,8 @@
-﻿using Jackett.Utils.Clients;
+﻿using Jackett.Utils;
+using Jackett.Utils.Clients;
 using NUnit.Framework;
-using Jackett.Utils;
 
-namespace JackettTest.Indexers
+namespace JackettTest.Util
 {
     [TestFixture]
     class ServerUtilTests : TestBase

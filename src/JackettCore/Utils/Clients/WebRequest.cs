@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Jackett.Utils.Clients
+namespace JackettCore.Utils.Clients
 {
     public class WebRequest
     {

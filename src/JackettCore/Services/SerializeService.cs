@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface ISerializeService
     {

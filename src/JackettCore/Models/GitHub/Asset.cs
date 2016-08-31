@@ -1,4 +1,4 @@
-﻿namespace Jackett.Models.GitHub
+﻿namespace JackettCore.Models.GitHub
 {
     public class Asset
     {

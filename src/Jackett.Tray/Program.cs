@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace JackettTray
+namespace Jackett.Tray
 {
     static class Program
     {

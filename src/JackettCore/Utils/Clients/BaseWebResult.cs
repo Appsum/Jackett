@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Jackett.Utils.Clients
+namespace JackettCore.Utils.Clients
 {
     public abstract class BaseWebResult
     {

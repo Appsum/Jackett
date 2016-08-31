@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Jackett.Models.GitHub
+namespace JackettCore.Models.GitHub
 {
     public class Release
     {

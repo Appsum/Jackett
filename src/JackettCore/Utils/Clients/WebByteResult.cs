@@ -1,4 +1,4 @@
-﻿namespace Jackett.Utils.Clients
+﻿namespace JackettCore.Utils.Clients
 {
     public class WebClientByteResult : BaseWebResult
     {

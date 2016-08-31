@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jackett
+namespace JackettCore
 {
     class AuthenticationException : Exception
     {

@@ -1,18 +1,16 @@
-﻿using CsQuery;
-using Jackett.Models;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Jackett.Models.IndexerConfig;
-using System.Collections.Specialized;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     //
     //     Quick and dirty indexer for GFTracker.  
@@ -175,7 +173,7 @@ namespace Jackett.Indexers
 
                     var dateString = qRow.Children().ElementAt(6).Cq().Text().Trim();
                     //var pubDate = DateTime.ParseExact(dateString, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-                    release.PublishDate = Jackett.Utils.DateTimeUtil.FromTimeAgo(dateString);
+                    release.PublishDate = DateTimeUtil.FromTimeAgo(dateString);
 
                     var sizeStr = qRow.Children().ElementAt(7).Cq().Text().Split(new char[] { '/' })[0];
                     release.Size = ReleaseInfo.GetBytes(sizeStr);

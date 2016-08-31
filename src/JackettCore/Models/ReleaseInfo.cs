@@ -1,8 +1,8 @@
-﻿using Jackett.Utils;
-using System;
+﻿using System;
 using System.Linq;
+using JackettCore.Utils;
 
-namespace Jackett.Models
+namespace JackettCore.Models
 {
 
     public class ReleaseInfo: ICloneable

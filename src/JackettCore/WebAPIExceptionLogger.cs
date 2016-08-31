@@ -1,9 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http.ExceptionHandling;
-using Jackett.Utils;
 
-namespace Jackett
+namespace JackettCore
 {
     class WebAPIExceptionLogger : IExceptionLogger
     {

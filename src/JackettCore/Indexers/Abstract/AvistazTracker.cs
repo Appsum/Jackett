@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Jackett.Models;
-using Newtonsoft.Json.Linq;
-using NLog;
-using Jackett.Utils;
-using CsQuery;
-using System.Web;
-using Jackett.Services;
-using Jackett.Utils.Clients;
 using System.Text.RegularExpressions;
-using Jackett.Models.IndexerConfig;
+using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers.Abstract
 {
     public abstract class AvistazTracker : BaseIndexer
     {
@@ -26,7 +24,7 @@ namespace Jackett.Indexers
             set { base.configData = value; }
         }
 
-        public AvistazTracker(IIndexerManagerService indexerManager, IWebClient webClient, Logger logger, IProtectionService protectionService, string name, string desc, string link)
+        public AvistazTracker(IIndexerManagerService indexerManager, IWebClient webClient, ILogger logger, IProtectionService protectionService, string name, string desc, string link)
             : base(name: name,
                 description: desc,
                 link: link,

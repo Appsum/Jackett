@@ -1,11 +1,9 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 using CommandLine.Text;
-using Jackett;
-using Jackett.Console;
 using Jackett.Utils;
-using System;
 
-namespace JackettConsole
+namespace Jackett.Console
 {
     public class Program
     {
@@ -20,9 +18,9 @@ namespace JackettConsole
                     {
                         var help = new HelpText();
                         var errors = help.RenderParsingErrorsText(options, 2); // indent with two spaces
-                        Console.WriteLine("Jackett v" + Engine.ConfigService.GetVersion());
-                        Console.WriteLine("Switch error: " + errors);
-                        Console.WriteLine("See --help for further details on switches.");
+                        System.Console.WriteLine("Jackett v" + Engine.ConfigService.GetVersion());
+                        System.Console.WriteLine("Switch error: " + errors);
+                        System.Console.WriteLine("See --help for further details on switches.");
                         Environment.ExitCode = 1;
                         return;
                     }
@@ -32,7 +30,7 @@ namespace JackettConsole
                         var text = HelpText.AutoBuild(options, (HelpText current) => HelpText.DefaultParsingErrorsHandler(options, current));
                         text.Copyright = " ";
                         text.Heading = "Jackett v" + Engine.ConfigService.GetVersion() + " options:";
-                        Console.WriteLine(text);
+                        System.Console.WriteLine(text);
                         Environment.ExitCode = 1;
                         return;
                     }
@@ -42,7 +40,7 @@ namespace JackettConsole
 
                     if (options.ListenPublic && options.ListenPrivate)
                     {
-                        Console.WriteLine("You can only use listen private OR listen publicly.");
+                        System.Console.WriteLine("You can only use listen private OR listen publicly.");
                         Environment.ExitCode = 1;
                         return;
                     }
@@ -151,7 +149,7 @@ namespace JackettConsole
                     // Show Version
                     if (options.ShowVersion)
                     {
-                        Console.WriteLine("Jackett v" + Engine.ConfigService.GetVersion());
+                        System.Console.WriteLine("Jackett v" + Engine.ConfigService.GetVersion());
                         return;
                     }
 

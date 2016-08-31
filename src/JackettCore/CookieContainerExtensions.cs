@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett
+namespace JackettCore
 {
     public static class CookieContainerExtensions
     {
-        public static void FillFromJson(this CookieContainer cookies, Uri uri, JToken json, Logger logger)
+        public static void FillFromJson(this CookieContainer cookies, Uri uri, JToken json, ILogger logger)
         {
             if (json["cookies"] != null)
             {
@@ -38,7 +38,7 @@ namespace Jackett
                     }
                     catch (CookieException ex)
                     {
-                        logger.Info("(Non-critical) Problem loading cookie {0}, {1}, {2}", uri, c, ex.Message);
+                        logger.LogInformation("(Non-critical) Problem loading cookie {0}, {1}, {2}", uri, c, ex.Message);
                     }
                 }
             }

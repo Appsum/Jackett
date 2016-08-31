@@ -1,11 +1,11 @@
-﻿using AutoMapper;
-using Jackett.Indexers;
-using Jackett.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
+using JackettCore.Indexers;
+using JackettCore.Models;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface ICacheService
     {
@@ -16,30 +16,33 @@ namespace Jackett.Services
 
     public class CacheService : ICacheService
     {
-        private readonly List<TrackerCache> cache = new List<TrackerCache>();
-        private readonly int MAX_RESULTS_PER_TRACKER = 1000;
-        private readonly TimeSpan AGE_LIMIT = new TimeSpan(7, 0, 0, 0);
+        private readonly List<TrackerCache> _cache = new List<TrackerCache>();
+        private const int MaxResultsPerTracker = 1000;
 
         public void CacheRssResults(IIndexer indexer, IEnumerable<ReleaseInfo> releases)
         {
-            lock (cache)
+            lock (_cache)
             {
-                var trackerCache = cache.Where(c => c.TrackerId == indexer.ID).FirstOrDefault();
+                var trackerCache = _cache.FirstOrDefault(c => c.TrackerId == indexer.ID);
                 if (trackerCache == null)
                 {
-                    trackerCache = new TrackerCache();
-                    trackerCache.TrackerId = indexer.ID;
-                    trackerCache.TrackerName = indexer.DisplayName;
-                    cache.Add(trackerCache);
+                    trackerCache = new TrackerCache
+                    {
+                        TrackerId = indexer.ID,
+                        TrackerName = indexer.DisplayName
+                    };
+                    _cache.Add(trackerCache);
                 }
 
                 foreach(var release in releases.OrderByDescending(i=>i.PublishDate))
                 {
-                    var existingItem = trackerCache.Results.Where(i => i.Result.Guid == release.Guid).FirstOrDefault();
+                    var existingItem = trackerCache.Results.FirstOrDefault(i => i.Result.Guid == release.Guid);
                     if (existingItem == null)
                     {
-                        existingItem = new CachedResult();
-                        existingItem.Created = DateTime.Now;
+                        existingItem = new CachedResult
+                        {
+                            Created = DateTime.Now
+                        };
                         trackerCache.Results.Add(existingItem);
                     }
 
@@ -47,28 +50,22 @@ namespace Jackett.Services
                 }
 
                 // Prune cache
-                foreach(var tracker in cache)
+                foreach(var tracker in _cache)
                 {
-                    tracker.Results = tracker.Results.OrderByDescending(i => i.Created).Take(MAX_RESULTS_PER_TRACKER).ToList();
+                    tracker.Results = tracker.Results.OrderByDescending(i => i.Created).Take(MaxResultsPerTracker).ToList();
                 }
             }
         }
 
         public int GetNewItemCount(IIndexer indexer, IEnumerable<ReleaseInfo> releases)
         {
-            lock (cache)
+            lock (_cache)
             {
-                int newItemCount = 0;
-                var trackerCache = cache.Where(c => c.TrackerId == indexer.ID).FirstOrDefault();
+                var newItemCount = 0;
+                var trackerCache = _cache.FirstOrDefault(c => c.TrackerId == indexer.ID);
                 if (trackerCache != null)
                 {
-                    foreach (var release in releases)
-                    {
-                        if (trackerCache.Results.Where(i => i.Result.Guid == release.Guid).Count() == 0)
-                        {
-                            newItemCount++;
-                        }
-                    }
+                    newItemCount += releases.Count(release => trackerCache.Results.All(i => i.Result.Guid != release.Guid));
                 }
                 else {
                     newItemCount++;
@@ -80,11 +77,11 @@ namespace Jackett.Services
 
         public List<TrackerCacheResult> GetCachedResults()
         {
-            lock (cache)
+            lock (_cache)
             {
                 var results = new List<TrackerCacheResult>();
 
-                foreach(var tracker in cache)
+                foreach(var tracker in _cache)
                 {
                     foreach(var release in tracker.Results.OrderByDescending(i => i.Result.PublishDate).Take(300))
                     {

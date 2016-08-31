@@ -1,24 +1,24 @@
-﻿using Jackett.Services;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
+using JackettCore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Controllers
+namespace JackettCore.Controllers
 {
     [AllowAnonymous]
-    [JackettAPINoCache]
-    public class BlackholeController : ApiController
+    [ResponseCache(CacheProfileName = "Never")]
+    public class BlackholeController : Controller
     {
-        private Logger logger;
+        private ILogger logger;
         private IIndexerManagerService indexerService;
         IServerService serverService;
 
-        public BlackholeController(IIndexerManagerService i, Logger l, IServerService s)
+        public BlackholeController(IIndexerManagerService i, ILogger l, IServerService s)
         {
             logger = l;
             indexerService = i;
@@ -58,7 +58,7 @@ namespace Jackett.Controllers
                 }
 
                 var fileName = DateTime.Now.Ticks + ".torrent";
-                File.WriteAllBytes(Path.Combine(Engine.Server.Config.BlackholeDir, fileName), downloadBytes);
+                System.IO.File.WriteAllBytes(Path.Combine(Engine.Server.Config.BlackholeDir, fileName), downloadBytes);
                 jsonReply["result"] = "success";
             }
             catch (Exception ex)

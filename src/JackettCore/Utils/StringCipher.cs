@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public static class StringCipher
     {

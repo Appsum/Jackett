@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jackett.Models;
-using Newtonsoft.Json.Linq;
-using NLog;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
 using AutoMapper;
-using Jackett.Models.IndexerConfig;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public abstract class BaseIndexer
     {

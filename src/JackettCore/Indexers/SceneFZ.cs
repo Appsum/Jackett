@@ -1,18 +1,15 @@
-﻿using Jackett.Utils.Clients;
-using NLog;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Models;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using System;
 using System.Collections.Generic;
-using CsQuery;
-using System.Web;
-using System;
 using System.Globalization;
-using Jackett.Models.IndexerConfig;
+using System.Threading.Tasks;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json.Linq;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     public class SceneFZ : BaseIndexer, IIndexer
     {

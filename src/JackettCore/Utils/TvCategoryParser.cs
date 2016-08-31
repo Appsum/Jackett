@@ -1,9 +1,9 @@
 ﻿//Regex sourced from Sonarr  - https://github.com/Sonarr/Sonarr/blob/develop/src/NzbDrone.Core/Parser/QualityParser.cs
 
 using System.Text.RegularExpressions;
-using Jackett.Models;
+using JackettCore.Models;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public static class TvCategoryParser
     {
@@ -37,7 +37,7 @@ namespace Jackett.Utils
 
         public static int ParseTvShowQuality(string tvShowFileName)
         {
-            string normalizedName = tvShowFileName.Trim().Replace('_', ' ').Trim().ToLower();
+            var normalizedName = tvShowFileName.Trim().Replace('_', ' ').Trim().ToLower();
 
             var sourceMatch = SourceRegex.Match(normalizedName);
             var resolutionMatch = ResolutionRegex.Match(normalizedName);
@@ -58,14 +58,7 @@ namespace Jackett.Utils
 
             if (sourceMatch.Groups["hdtv"].Success)
             {
-                if (resolutionMatch.Groups["q1080p"].Success || resolutionMatch.Groups["q720p"].Success)
-                {
-                    return TorznabCatType.TVHD.ID;
-                }
-                else
-                {
-                    return TorznabCatType.TVSD.ID;
-                }
+                return resolutionMatch.Groups["q1080p"].Success || resolutionMatch.Groups["q720p"].Success ? TorznabCatType.TVHD.ID : TorznabCatType.TVSD.ID;
             }
 
             if (sourceMatch.Groups["bluray"].Success || sourceMatch.Groups["bdrip"].Success || sourceMatch.Groups["brrip"].Success)
@@ -93,22 +86,10 @@ namespace Jackett.Utils
 
             if (sourceMatch.Groups["pdtv"].Success || sourceMatch.Groups["sdtv"].Success || sourceMatch.Groups["dsr"].Success || sourceMatch.Groups["tvrip"].Success)
             {
-                if (HighDefPdtvRegex.IsMatch(normalizedName))
-                {
-                    return TorznabCatType.TVHD.ID;
-                }
-                else
-                {
-                    return TorznabCatType.TVSD.ID;
-                }
+                return HighDefPdtvRegex.IsMatch(normalizedName) ? TorznabCatType.TVHD.ID : TorznabCatType.TVSD.ID;
             }
 
-            if (RawHdRegex.IsMatch(normalizedName))
-            {
-                return TorznabCatType.TVHD.ID;
-            }
-
-            return TorznabCatType.TV.ID;
+            return RawHdRegex.IsMatch(normalizedName) ? TorznabCatType.TVHD.ID : TorznabCatType.TV.ID;
         }
 
     }

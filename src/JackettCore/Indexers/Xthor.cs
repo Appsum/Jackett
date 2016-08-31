@@ -4,17 +4,15 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Web;
-using Jackett.Models;
-using Jackett.Models.IndexerConfig.Bespoke;
-using Jackett.Services;
-using Jackett.Utils;
-using Jackett.Utils.Clients;
+using JackettCore.Models;
+using JackettCore.Models.IndexerConfig.Bespoke;
+using JackettCore.Services;
+using JackettCore.Utils;
+using JackettCore.Utils.Clients;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NLog;
 
-namespace Jackett.Indexers
+namespace JackettCore.Indexers
 {
     /// <summary>
     /// Provider for Xthor Private French Tracker

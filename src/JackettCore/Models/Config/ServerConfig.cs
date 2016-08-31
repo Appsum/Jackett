@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jackett.Models.Config
+﻿namespace JackettCore.Models.Config
 {
     public class ServerConfig
     {

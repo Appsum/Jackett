@@ -1,14 +1,13 @@
-﻿using Jackett;
-using Jackett.Utils;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Jackett.Utils;
 
-namespace JackettTray
+namespace Jackett.Tray
 {
     public partial class Main : Form
     {

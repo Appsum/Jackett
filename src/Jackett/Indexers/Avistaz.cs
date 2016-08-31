@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Jackett.Indexers.Abstract;
+using NLog;
 using Jackett.Services;
 using Jackett.Utils.Clients;
 

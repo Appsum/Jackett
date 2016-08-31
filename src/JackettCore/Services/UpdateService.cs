@@ -1,12 +1,4 @@
-﻿using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
-using ICSharpCode.SharpZipLib.Zip;
-using Jackett.Models.Config;
-using Jackett.Models.GitHub;
-using Jackett.Utils.Clients;
-using Newtonsoft.Json;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,8 +8,12 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using JackettCore.Models.Config;
+using JackettCore.Models.GitHub;
+using JackettCore.Utils.Clients;
+using Newtonsoft.Json;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IUpdateService
     {

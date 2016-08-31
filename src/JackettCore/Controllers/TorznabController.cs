@@ -1,29 +1,29 @@
-﻿using AutoMapper;
-using Jackett.Models;
-using Jackett.Services;
-using NLog;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
+using AutoMapper;
+using JackettCore.Models;
+using JackettCore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Jackett.Controllers
+namespace JackettCore.Controllers
 {
     [AllowAnonymous]
-    [JackettAPINoCache]
-    public class TorznabController : ApiController
+    [ResponseCache(CacheProfileName = "Never")]
+    public class TorznabController : Controller
     {
         private IIndexerManagerService indexerService;
-        private Logger logger;
+        private ILogger logger;
         private IServerService serverService;
         private ICacheService cacheService;
 
-        public TorznabController(IIndexerManagerService i, Logger l, IServerService s, ICacheService c)
+        public TorznabController(IIndexerManagerService i, ILogger l, IServerService s, ICacheService c)
         {
             indexerService = i;
             logger = l;

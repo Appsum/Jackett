@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using Jackett.Utils;
+using JackettCore.Utils;
 
-namespace Jackett.Services
+namespace JackettCore.Services
 {
     public interface IProtectionService
     {

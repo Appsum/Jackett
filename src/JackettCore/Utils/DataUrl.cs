@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Web;
 
-namespace Jackett.Utils
+namespace JackettCore.Utils
 {
     public class DataUrlUtils
     {

@@ -1,4 +1,4 @@
-﻿namespace Jackett.Models.IndexerConfig.Bespoke
+﻿namespace JackettCore.Models.IndexerConfig.Bespoke
 {
     class ConfigurationDataPhxBit : ConfigurationData
     {

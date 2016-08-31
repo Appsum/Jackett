@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Jackett.Utils.Clients
+namespace JackettCore.Utils.Clients
 {
     public interface IWebClient
     {
